@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Quiz (Manual) — Quiznaut AI</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Quiznaut AI Home">
+          <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
+          <span class="brand-name">Quiznaut AI</span>
+        </a>
+        <nav class="nav-actions" aria-label="Primary">
+          <a class="link" href="/">Home</a>
+          <a class="link" href="/create.html">Create Quiz</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" aria-labelledby="create-title">
+        <div class="container">
+          <div class="section-header text-center">
+            <h1 id="create-title" class="gradient-text">Manual Quiz Builder</h1>
+            <p class="section-subtitle">Set quiz basics and craft up to 15 questions (MCQs).</p>
+          </div>
+
+          <form id="createForm" class="card form-card" novalidate>
+            <fieldset class="fieldset">
+              <div class="fieldset-header">
+                <h2 class="fieldset-title">Global Settings</h2>
+                <button id="globalSettingsToggle" type="button" class="btn btn-ghost" aria-expanded="false" aria-controls="globalSettingsBody">Show</button>
+              </div>
+              <div id="globalSettingsBody" class="collapsible-body" hidden>
+                <div class="grid-2">
+                  <div class="field">
+                    <label for="defaultMarks">Default marks per question</label>
+                    <input id="defaultMarks" type="number" min="1" value="1" />
+                  </div>
+                  <div class="field">
+                    <label>Scoring mode</label>
+                    <div>
+                      <label style="display:inline-flex; align-items:center; gap:.4rem; margin-right:1rem;">
+                        <input type="radio" name="scoringMode" value="positive" checked /> Positive only
+                      </label>
+                      <label style="display:inline-flex; align-items:center; gap:.4rem;">
+                        <input type="radio" name="scoringMode" value="negative" /> Positive + Negative
+                      </label>
+                    </div>
+                  </div>
+                  <div class="field" id="penaltyRow" hidden>
+                    <label for="penalty">Default negative marks (penalty per wrong)</label>
+                    <input id="penalty" type="number" min="0" value="0" />
+                  </div>
+                  <div class="field">
+                    <label>
+                      <input id="requireAnswer" type="checkbox" checked /> All questions must be answered
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend class="legend">Basics</legend>
+              <div class="field">
+                <label for="quizName">Quiz Name<span class="req">*</span></label>
+                <input id="quizName" name="quizName" type="text" required placeholder="e.g., JavaScript Basics" />
+              </div>
+            </fieldset>
+
+            <fieldset id="aiConfig" class="fieldset" hidden>
+              <legend class="legend">AI Configuration</legend>
+              <div class="grid-2">
+                <div class="field">
+                  <label for="aiTopic">Topic / Prompt</label>
+                  <input id="aiTopic" name="aiTopic" type="text" placeholder="e.g., ES6 JavaScript features" />
+                  <small class="help">Describe the quiz content for AI generation.</small>
+                </div>
+                <div class="field">
+                  <label for="difficulty">Difficulty</label>
+                  <select id="difficulty" name="difficulty" aria-label="Difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="Hard">Hard</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <button id="generateBtn" type="button" class="btn btn-secondary">Generate Questions</button>
+                <span id="aiStatus" class="status"></span>
+              </div>
+            </fieldset>
+
+            <fieldset class="fieldset questions-fieldset">
+              <legend class="legend">Questions</legend>
+              <div class="stack gap-sm">
+                <div id="questionsEditor" class="stack question-list" aria-live="polite"></div>
+                <div class="add-question-row">
+                  <button id="addQuestionBtn" type="button" class="btn btn-secondary">Add Question</button>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="form-actions">
+              <button id="saveQuizBtn" type="submit" class="btn btn-primary btn-lg">Save Quiz</button>
+              <span id="formStatus" role="status" aria-live="polite" class="status"></span>
+            </div>
+
+            <div id="shareBlock" class="share card" hidden>
+              <h3>Your quiz is ready!</h3>
+              <p class="share-url" id="shareUrl"></p>
+              <div class="share-actions">
+                <button id="copyUrlBtn" type="button" class="btn btn-secondary">Copy URL</button>
+                <a id="openQuizLink" class="btn btn-ghost" target="_blank" rel="noopener">Open Quiz</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
+          <span class="brand-name">Quiznaut AI</span>
+          <span class="dot" aria-hidden="true">•</span>
+          <span class="credit">Powered by Gemini AI, Cursor AI, and Supabase.</span>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <a class="link" href="/">Home</a>
+          <a class="link" href="/create.html">Create Quiz</a>
+        </nav>
+      </div>
+    </footer>
+
+    <!-- Environment configuration -->
+    <script src="/env.js"></script>
+    <!-- Supabase client CDN (v2) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3"></script>
+    <script src="/js/supabaseClient.js" type="module"></script>
+    <script src="/js/create.js" type="module"></script>
+  </body>
+  </html>
+
+
+
+
+

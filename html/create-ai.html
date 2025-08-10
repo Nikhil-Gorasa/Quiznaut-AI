@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Quiz (AI) — Quiznaut AI</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Quiznaut AI Home">
+          <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
+          <span class="brand-name">Quiznaut AI</span>
+        </a>
+        <nav class="nav-actions" aria-label="Primary">
+          <a class="link" href="/">Home</a>
+          <a class="link" href="/create.html">Create Quiz</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" aria-labelledby="create-title">
+        <div class="container">
+          <div class="section-header text-center">
+            <h1 id="create-title" class="gradient-text">AI Quiz Generator</h1>
+            <p class="section-subtitle">Describe your quiz and let AI help draft questions. You can edit everything before saving.</p>
+          </div>
+
+          <div class="ai-quiz-layout">
+            <!-- Left Sidebar - Settings Panel -->
+            <aside class="settings-panel">
+              <div class="settings-header">
+                <div class="settings-header-content">
+                  <h2 class="settings-title">⚙️ Quiz Settings</h2>
+                  <p class="settings-subtitle">Configure your quiz parameters</p>
+                </div>
+                <button id="settingsToggle" type="button" class="toggle-btn" aria-expanded="true">
+                  <span class="toggle-icon">▼</span>
+                </button>
+              </div>
+
+              <div id="settingsContent" class="collapsible-content">
+                <form id="createForm" class="settings-form" novalidate>
+                  <!-- 2-Panel Layout for Quiz Settings -->
+                  <div class="settings-content">
+                    <!-- Global Settings Section -->
+                    <div class="settings-section">
+                      <div class="section-header-compact">
+                        <h3 class="section-title">⚙️ Global Settings</h3>
+                        <button id="globalSettingsToggle" type="button" class="toggle-btn" aria-expanded="false">
+                          <span class="toggle-icon">▼</span>
+                        </button>
+                      </div>
+                      <div id="globalSettingsBody" class="collapsible-content" hidden>
+                        <div class="form-fields">
+                          <div class="field">
+                            <label for="defaultMarks">Default marks per question</label>
+                            <input id="defaultMarks" type="number" min="1" value="1" />
+                          </div>
+                          <div class="field">
+                            <label>Scoring mode</label>
+                            <div>
+                              <label style="display:inline-flex; align-items:center; gap:.4rem; margin-right:1rem;">
+                                <input type="radio" name="scoringMode" value="positive" checked /> Positive only
+                              </label>
+                              <label style="display:inline-flex; align-items:center; gap:.4rem;">
+                                <input type="radio" name="scoringMode" value="negative" /> Positive + Negative
+                              </label>
+                            </div>
+                          </div>
+                          <div class="field" id="penaltyRow" hidden>
+                            <label for="penalty">Default negative marks (penalty per wrong)</label>
+                            <input id="penalty" type="number" min="0" value="0" />
+                          </div>
+                          <div class="field">
+                            <label>
+                              <input id="requireAnswer" type="checkbox" checked /> All questions must be answered
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Left Panel - Quiz Basics -->
+                    <div class="settings-section">
+                      <div class="section-header-compact">
+                        <h3 class="section-title">📝 Quiz Basics</h3>
+                      </div>
+                      <div class="form-fields">
+                        <div class="field">
+                          <label for="quizName">Quiz Name<span class="req">*</span></label>
+                          <input id="quizName" name="quizName" type="text" required placeholder="e.g., JavaScript Basics" />
+                        </div>
+                        <div class="field">
+                          <label for="numQuestions">Number of Questions<span class="req">*</span></label>
+                          <div class="number-input-wrapper">
+                            <input id="numQuestions" name="numQuestions" type="number" min="1" max="15" value="5" />
+                            <span class="max-indicator">Max: 15</span>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label for="marksPerQuestion">Marks per Question</label>
+                          <input id="marksPerQuestion" name="marksPerQuestion" type="number" min="1" value="1" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Right Panel - AI Configuration -->
+                    <div class="settings-section">
+                      <div class="section-header-compact">
+                        <h3 class="section-title">🤖 AI Configuration</h3>
+                      </div>
+                      <div class="form-fields">
+                        <div class="field">
+                          <label for="aiTopic">Topic / Subject<span class="req">*</span></label>
+                          <textarea id="aiTopic" name="aiTopic" rows="3" required placeholder="Describe what you want to test. Be specific for better results.&#10;e.g., ES6 JavaScript features including arrow functions, destructuring, and modules" class="topic-textarea"></textarea>
+                          <small class="help">The more specific you are, the better the AI questions will be.</small>
+                        </div>
+                        <div class="field">
+                          <label for="difficulty">Difficulty Level</label>
+                          <select id="difficulty" name="difficulty" aria-label="Difficulty">
+                            <option value="Easy">🟢 Easy - Basic concepts</option>
+                            <option value="Medium" selected>🟡 Medium - Intermediate knowledge</option>
+                            <option value="Hard">🔴 Hard - Advanced topics</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Advanced Settings Section -->
+                  <div class="settings-section">
+                    <div class="section-header-compact">
+                      <h3 class="section-title">🔧 Advanced Settings</h3>
+                      <button id="advancedToggle" type="button" class="toggle-btn" aria-expanded="false">
+                        <span class="toggle-icon">▼</span>
+                      </button>
+                    </div>
+                    <div id="advancedSettings" class="collapsible-content" hidden>
+                      <div class="form-fields">
+                        <div class="field">
+                          <label class="checkbox-item">
+                            <input id="negativeMarks" type="checkbox" />
+                            <span class="checkmark"></span>
+                            Enable Negative Marks
+                          </label>
+                          <small class="help">Deduct points for wrong answers</small>
+                        </div>
+                        <div class="field">
+                          <label class="checkbox-item">
+                            <input id="shuffleQuestions" type="checkbox" />
+                            <span class="checkmark"></span>
+                            Shuffle question order
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Generate Button -->
+                  <div class="generate-section">
+                    <button id="generateBtn" type="button" class="btn btn-primary btn-lg generate-btn">
+                      <span class="btn-icon">🚀</span>
+                      Generate Questions with AI
+                    </button>
+                    <div id="aiStatus" class="status ai-status"></div>
+                  </div>
+                </form>
+              </div>
+            </aside>
+
+            <!-- Right Side - Questions Editor -->
+            <main class="questions-editor">
+              <div class="editor-header">
+                <h2 class="editor-title">📋 Questions Editor</h2>
+                <p class="editor-subtitle">Review and customize your AI-generated questions</p>
+              </div>
+
+              <div class="questions-container">
+                <!-- Questions List -->
+                <div id="questionsEditor" class="questions-list" aria-live="polite">
+                  <div class="empty-state">
+                    <div class="empty-icon">🤖</div>
+                    <h3>No Questions Yet</h3>
+                    <p>Configure your settings and click "Generate Questions" to get started!</p>
+                  </div>
+                </div>
+
+                <!-- Add Question Button -->
+                <div class="add-question-section">
+                  <button id="addQuestionBtn" type="button" class="btn btn-secondary add-question-btn">
+                    <span class="btn-icon">➕</span>
+                    Add Manual Question
+                  </button>
+                </div>
+
+                <!-- Save Section -->
+                <div class="save-section">
+                  <button id="saveQuizBtn" type="submit" class="btn btn-primary btn-lg save-btn" disabled>
+                    <span class="btn-icon">💾</span>
+                    Save Quiz
+                  </button>
+                  <span id="formStatus" role="status" aria-live="polite" class="status"></span>
+                </div>
+              </div>
+            </main>
+          </div>
+
+          <!-- Share Block (Hidden by default) -->
+          <div id="shareBlock" class="share-block" hidden>
+            <div class="share-content">
+              <h3>🎉 Your quiz is ready!</h3>
+              <p class="share-url" id="shareUrl"></p>
+              <div class="share-actions">
+                <button id="copyUrlBtn" type="button" class="btn btn-secondary">📋 Copy URL</button>
+                <a id="openQuizLink" class="btn btn-ghost" target="_blank" rel="noopener">🔗 Open Quiz</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
+          <span class="brand-name">Quiznaut AI</span>
+          <span class="dot" aria-hidden="true">•</span>
+          <span class="credit">Powered by Gemini AI, Cursor AI, and Supabase.</span>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <a class="link" href="/">Home</a>
+          <a class="link" href="/create.html">Create Quiz</a>
+        </nav>
+      </div>
+    </footer>
+
+    <!-- Supabase client CDN (v2) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3"></script>
+    <script src="/env.js"></script>
+    <script src="/js/supabaseClient.js" type="module"></script>
+    <script src="/js/create.js" type="module"></script>
+  </body>
+</html>
+
+
+
+
+

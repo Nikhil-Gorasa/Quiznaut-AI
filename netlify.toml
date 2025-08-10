@@ -1,0 +1,51 @@
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/"
+  to = "/html/index.html"
+  status = 200
+
+# Redirect for HTML files to work properly
+[[redirects]]
+  from = "/*.html"
+  to = "/html/:splat"
+  status = 200
+
+# Redirect for quiz URLs with parameters
+[[redirects]]
+  from = "/quiz-start.html"
+  to = "/html/quiz-start.html"
+  status = 200
+
+[[redirects]]
+  from = "/quiz.html"
+  to = "/html/quiz.html"
+  status = 200
+
+[[redirects]]
+  from = "/quiz-results.html"
+  to = "/html/quiz-results.html"
+  status = 200
+
+[[redirects]]
+  from = "/create.html"
+  to = "/html/create.html"
+  status = 200
+
+[[redirects]]
+  from = "/create-ai.html"
+  to = "/html/create-ai.html"
+  status = 200
+
+[[redirects]]
+  from = "/create-manual.html"
+  to = "/html/create-manual.html"
+  status = 200
+
+

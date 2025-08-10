@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results - Quiznaut AI</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .results-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            min-height: 80vh;
+        }
+
+        .results-main {
+            background: var(--panel);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .results-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .results-subtitle {
+            font-size: 1.2rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .score-display {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--panel-2);
+            border-radius: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            position: relative;
+            background: conic-gradient(var(--accent) 0deg, var(--accent) var(--score-degrees), var(--panel-2) var(--score-degrees), var(--panel-2) 360deg);
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--panel);
+        }
+
+        .score-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .score-details {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .performance-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            color: var(--text);
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .performance-card {
+            padding: 1rem;
+            background: var(--panel-2);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .performance-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .performance-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .performance-label {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .actions-section {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--panel-2);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: rgba(245, 158, 11, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #2ecc71, #34d199);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.3);
+        }
+
+        /* Leaderboard sidebar */
+        .leaderboard-sidebar {
+            background: var(--panel);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--panel-2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .rank {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent);
+            min-width: 2rem;
+        }
+
+        .rank.gold { color: #ffd700; }
+        .rank.silver { color: #c0c0c0; }
+        .rank.bronze { color: #cd7f32; }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .player-score {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .score-badge {
+            padding: 0.25rem 0.75rem;
+            background: linear-gradient(135deg, #2ecc71, #34d199);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .current-player {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--accent);
+        }
+
+        .empty-leaderboard {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 1024px) {
+            .results-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .leaderboard-sidebar {
+                position: static;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .results-container {
+                padding: 1rem;
+            }
+
+            .results-title {
+                font-size: 2rem;
+            }
+
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2rem;
+            }
+
+            .score-circle::before {
+                width: 90px;
+                height: 90px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="/" aria-label="Quiznaut AI Home">
+                  <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
+                  <span class="brand-name">Quiznaut AI</span>
+                </a>
+                                  <nav class="nav-actions" aria-label="Primary">
+                      <a class="link" href="/create.html">Create Quiz</a>
+                      <a class="link" href="/#quizzes">Available Quizzes</a>
+                      <a class="link" href="/#how">How it Works</a>
+                  </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="results-container">
+                <div class="results-main">
+                    <div class="results-header">
+                        <h1 class="results-title" id="resultsTitle">Quiz Results</h1>
+                        <p class="results-subtitle" id="resultsSubtitle">Great job completing the quiz!</p>
+                    </div>
+
+                    <div class="score-display">
+                        <div class="score-circle" id="scoreCircle">
+                            <div class="score-text" id="scoreText">85%</div>
+                        </div>
+                        <div class="score-details">
+                            <div class="score-item">
+                                <div class="score-number" id="correctAnswers">17</div>
+                                <div class="score-label">Correct</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-number" id="totalQuestions">20</div>
+                                <div class="score-label">Total</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-number" id="percentage">85%</div>
+                                <div class="score-label">Score</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-section">
+                        <h2 class="section-title">Performance Breakdown</h2>
+                        <div class="performance-grid">
+                            <div class="performance-card">
+                                <div class="performance-icon">🎯</div>
+                                <div class="performance-value" id="accuracy">85%</div>
+                                <div class="performance-label">Accuracy</div>
+                            </div>
+                            <div class="performance-card">
+                                <div class="performance-icon">⚡</div>
+                                <div class="performance-value" id="speed">Good</div>
+                                <div class="performance-label">Speed</div>
+                            </div>
+                            <div class="performance-card">
+                                <div class="performance-icon">🏆</div>
+                                <div class="performance-value" id="rank">#3</div>
+                                <div class="performance-label">Rank</div>
+                            </div>
+                            <div class="performance-card">
+                                <div class="performance-icon">📈</div>
+                                <div class="performance-value" id="improvement">+15%</div>
+                                <div class="performance-label">vs Average</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions-section">
+                        <div class="action-buttons">
+                            <a href="../html/create.html" class="action-btn btn-secondary">
+                                ✏️ Create Your Own
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="leaderboard-sidebar">
+                    <div class="sidebar-header">
+                        <span>🏆</span>
+                        <h2 class="sidebar-title">Final Leaderboard</h2>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <div class="empty-leaderboard">
+                            <div class="empty-icon">🏆</div>
+                            <p>Loading leaderboard...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase SDK must load before our modules that create/use the client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/env.js" type="module"></script>
+    <script type="module">
+        import { supabaseClient } from '/js/supabaseClient.js';
+
+        // Get parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const quizId = urlParams.get('id');
+        const score = parseInt(urlParams.get('score') || '0');
+        const correct = parseInt(urlParams.get('correct') || '0');
+        const total = parseInt(urlParams.get('total') || '0');
+
+        let quizData = null;
+        let leaderboardData = [];
+        let playerName = '';
+
+        // Initialize results
+        async function initResults() {
+            try {
+                // Get player name from session storage
+                playerName = sessionStorage.getItem('playerName') || 'Anonymous';
+                
+                // Load quiz data
+                const { data, error } = await supabaseClient
+                    .from('quizzes')
+                    .select('*')
+                    .eq('id', quizId)
+                    .single();
+
+                if (error) throw error;
+
+                quizData = data;
+                displayResults();
+                loadLeaderboard();
+            } catch (error) {
+                console.error('Error loading results:', error);
+                displayResults(); // Still show results even if quiz data fails to load
+            }
+        }
+
+        function displayResults() {
+            // Update score display
+            document.getElementById('scoreText').textContent = `${score}%`;
+            document.getElementById('correctAnswers').textContent = correct;
+            document.getElementById('totalQuestions').textContent = total;
+            document.getElementById('percentage').textContent = `${score}%`;
+
+            // Update quiz title
+            if (quizData) {
+                document.getElementById('resultsTitle').textContent = `${quizData.title} - Results`;
+            }
+
+            // Update performance metrics
+            document.getElementById('accuracy').textContent = `${score}%`;
+            
+            // Determine speed rating
+            const speedRating = score >= 90 ? 'Excellent' : score >= 80 ? 'Good' : score >= 70 ? 'Average' : 'Needs Practice';
+            document.getElementById('speed').textContent = speedRating;
+
+            // Update score circle with dynamic background
+            const scoreCircle = document.getElementById('scoreCircle');
+            const degrees = (score / 100) * 360;
+            scoreCircle.style.setProperty('--score-degrees', `${degrees}deg`);
+            
+            // Update circle background
+            if (score >= 90) {
+                scoreCircle.style.background = `conic-gradient(#2ecc71 0deg, #2ecc71 ${degrees}deg, var(--panel-2) ${degrees}deg, var(--panel-2) 360deg)`;
+            } else if (score >= 70) {
+                scoreCircle.style.background = `conic-gradient(var(--accent) 0deg, var(--accent) ${degrees}deg, var(--panel-2) ${degrees}deg, var(--panel-2) 360deg)`;
+            } else {
+                scoreCircle.style.background = `conic-gradient(#e74c3c 0deg, #e74c3c ${degrees}deg, var(--panel-2) ${degrees}deg, var(--panel-2) 360deg)`;
+            }
+
+            // Update improvement (mock data)
+            const improvement = Math.floor(Math.random() * 30) + 5;
+            document.getElementById('improvement').textContent = `+${improvement}%`;
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('quiz_scores')
+                    .select('*')
+                    .eq('quiz_id', quizId)
+                    .order('score', { ascending: false })
+                    .limit(10);
+
+                if (error) throw error;
+
+                leaderboardData = data || [];
+                displayLeaderboard();
+                updateRank();
+            } catch (error) {
+                console.error('Error loading leaderboard:', error);
+            }
+        }
+
+        function displayLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            
+            if (leaderboardData.length === 0) {
+                leaderboardList.innerHTML = `
+                    <div class="empty-leaderboard">
+                        <div class="empty-icon">🏆</div>
+                        <p>No scores yet. You're the first!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            leaderboardList.innerHTML = leaderboardData.map((score, index) => {
+                const rankClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : '';
+                const rankIcon = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '#' + (index + 1);
+                const isCurrentPlayer = score.player_name === playerName;
+                
+                return `
+                    <div class="leaderboard-item ${isCurrentPlayer ? 'current-player' : ''}">
+                        <div class="rank ${rankClass}">${rankIcon}</div>
+                        <div class="player-info">
+                            <div class="player-name">${score.player_name}</div>
+                            <div class="player-score">${score.correct_answers}/${score.total_questions} correct</div>
+                        </div>
+                        <div class="score-badge">${score.score}%</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateRank() {
+            const playerRank = leaderboardData.findIndex(score => score.player_name === playerName) + 1;
+            if (playerRank > 0) {
+                document.getElementById('rank').textContent = `#${playerRank}`;
+            }
+        }
+
+
+
+        // Initialize results on page load
+        initResults();
+    </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiznaut AI — Create & Take AI Quizzes</title>
+    <meta
+      name="description"
+      content="Create and take AI-powered quizzes with ease. Built with vanilla JS, CSS, HTML, and Supabase."
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Quiznaut AI Home">
+          <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
+          <span class="brand-name">Quiznaut AI</span>
+        </a>
+        <nav class="nav-actions" aria-label="Primary">
+          <a class="link" href="/create.html">Create Quiz</a>
+          <a class="link" href="#quizzes">Available Quizzes</a>
+          <a class="link" href="#how">How it Works</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-background">
+          <div class="floating-particles">
+            <div class="particle particle-1"></div>
+            <div class="particle particle-2"></div>
+            <div class="particle particle-3"></div>
+            <div class="particle particle-4"></div>
+            <div class="particle particle-5"></div>
+          </div>
+        </div>
+        
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="hero-badge">
+              <span class="badge-icon">🚀</span>
+              <span>AI-Powered Quiz Platform</span>
+            </div>
+            <h1 id="hero-title">
+              <span class="gradient-text">Create</span> and 
+              <span class="gradient-text">take</span> 
+              <span class="highlight-text">AI-powered quizzes</span> 
+              with ease.
+            </h1>
+            <p class="tagline">
+              Transform learning with intelligent quiz creation, instant sharing, and real-time scoring. 
+              Built for educators, trainers, and knowledge enthusiasts.
+            </p>
+            <div class="hero-cta">
+              <a href="/create.html" class="hero-card create-card">
+                <div class="hero-card-content">
+                  <div class="card-icon">✨</div>
+                  <h3>Create Quiz</h3>
+                  <p>Build custom quizzes with AI assistance or manual creation</p>
+                </div>
+                <div class="hero-card-arrow">→</div>
+              </a>
+              <a href="#quizzes" class="hero-card write-card">
+                <div class="hero-card-content">
+                  <div class="card-icon">📝</div>
+                  <h3>Take Quiz</h3>
+                  <p>Browse and take quizzes created by our community</p>
+                </div>
+                <div class="hero-card-arrow">→</div>
+              </a>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-item">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Unlimited Quizzes</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">⚡</span>
+                <span class="stat-label">Instant Sharing</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">🎯</span>
+                <span class="stat-label">Real-time Scoring</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="preview-container">
+              <div class="card preview-card">
+                <div class="preview-badge">
+                  <span class="badge-dot"></span>
+                  Quiz
+                </div>
+                <div class="preview-body">
+                  <div class="skeleton title"></div>
+                  <div class="skeleton line"></div>
+                  <div class="skeleton line"></div>
+                  <div class="skeleton pill"></div>
+                </div>
+                <div class="preview-actions">
+                  <div class="action-btn">Start</div>
+                  <div class="action-btn secondary">Settings</div>
+                </div>
+              </div>
+              <div class="floating-elements">
+                <div class="floating-icon">🎓</div>
+                <div class="floating-icon">💡</div>
+                <div class="floating-icon">🏆</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Removed on landing: creation UI moved to create.html -->
+
+      <!-- Available Quizzes -->
+      <section id="quizzes" class="section" aria-labelledby="quizzes-title">
+        <div class="container">
+          <div class="section-header text-center">
+            <h2 id="quizzes-title" class="gradient-text">Available Quizzes</h2>
+            <p class="section-subtitle">Take quizzes created by our community</p>
+          </div>
+          
+          <div id="quizzesContainer" class="quizzes-grid">
+            <div class="loading-state">
+              <div class="loading-spinner"></div>
+              <p>Loading available quizzes...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section id="how" class="section subtle" aria-labelledby="how-title">
+        <div class="container">
+          <div class="section-header text-center">
+            <h2 id="how-title" class="gradient-text">How it works</h2>
+            <p class="section-subtitle">Simple steps to create and share amazing quizzes</p>
+          </div>
+          
+          <div class="how-it-works-container">
+            <div class="steps-timeline">
+              <div class="timeline-line"></div>
+              
+              <div class="step-item" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-card card">
+                  <div class="step-head">
+                    <div class="step-icon" aria-hidden="true">🛠️</div>
+                    <h3 class="step-title">Create</h3>
+                  </div>
+                  <p class="step-text">Fill out quiz details and add questions with multiple-choice options.</p>
+                  <div class="step-features">
+                    <span class="feature-tag">AI Assistance</span>
+                    <span class="feature-tag">Custom Questions</span>
+                    <span class="feature-tag">Multiple Choice</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="step-item" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-card card">
+                  <div class="step-head">
+                    <div class="step-icon" aria-hidden="true">💾</div>
+                    <h3 class="step-title">Save</h3>
+                  </div>
+                  <p class="step-text">Your quiz is stored in Supabase and assigned a unique ID.</p>
+                  <div class="step-features">
+                    <span class="feature-tag">Secure Storage</span>
+                    <span class="feature-tag">Unique ID</span>
+                    <span class="feature-tag">Instant Access</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="step-item" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-card card">
+                  <div class="step-head">
+                    <div class="step-icon" aria-hidden="true">🔗</div>
+                    <h3 class="step-title">Share</h3>
+                  </div>
+                  <p class="step-text">Send the URL like <code>quiz.html?id=YOUR_ID</code>.</p>
+                  <div class="step-features">
+                    <span class="feature-tag">One-Click Share</span>
+                    <span class="feature-tag">Direct Link</span>
+                    <span class="feature-tag">No Registration</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="step-item" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-card card">
+                  <div class="step-head">
+                    <div class="step-icon" aria-hidden="true">🎯</div>
+                    <h3 class="step-title">Take</h3>
+                  </div>
+                  <p class="step-text">The quiz page loads questions dynamically and tracks your score.</p>
+                  <div class="step-features">
+                    <span class="feature-tag">Real-time Scoring</span>
+                    <span class="feature-tag">Progress Tracking</span>
+                    <span class="feature-tag">Instant Results</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="how-it-works-cta">
+              <div class="cta-content">
+                <h3>Ready to get started?</h3>
+                <p>Create your first quiz in minutes and see the magic happen!</p>
+                <div class="cta-buttons">
+                  <a href="/create.html" class="btn btn-primary btn-lg">Create Quiz Now</a>
+                  <a href="#quizzes" class="btn btn-secondary btn-lg">Browse Quizzes</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
+          <span class="brand-name">Quiznaut AI</span>
+          <span class="dot" aria-hidden="true">•</span>
+          <span class="credit">Powered by Gemini API, Cursor AI, and Supabase.</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Supabase SDK must load before our modules that create the client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/env.js" type="module"></script>
+    <script src="/js/hero-effects.js"></script>
+    <script src="/js/home-quizzes.js" type="module"></script>
+  </body>
+  </html>
+
+

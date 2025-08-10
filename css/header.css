@@ -1,0 +1,124 @@
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: transparent;
+  border: 0;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  margin: .85rem auto;
+  background: rgba(11, 13, 18, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(245, 158, 11, 0.1);
+  transition: all 0.3s ease;
+}
+
+.header-inner:hover {
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(245, 158, 11, 0.15);
+}
+
+.brand { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: .6rem; 
+  color: var(--text); 
+  text-decoration: none; 
+  transition: transform 0.3s ease;
+}
+
+.brand:hover {
+  transform: scale(1.02);
+}
+
+.brand-logo { 
+  width: 56px; 
+  height: 56px; 
+  object-fit: contain; 
+  border-radius: 12px; 
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.brand:hover .brand-logo {
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+.brand-name { 
+  font-weight: 800; 
+  letter-spacing: .3px; 
+  background: linear-gradient(90deg, #ffffff, var(--accent-3)); 
+  -webkit-background-clip: text; 
+  background-clip: text; 
+  color: transparent; 
+  transition: all 0.3s ease;
+}
+
+.brand:hover .brand-name {
+  background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.nav-actions { 
+  display: flex; 
+  gap: 1rem; 
+  align-items: center; 
+}
+
+.nav-actions .link {
+  padding: .5rem 1rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-actions .link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 999px;
+}
+
+.nav-actions .link:hover::before {
+  opacity: 1;
+}
+
+.nav-actions .link:hover,
+.nav-actions .link:focus {
+  color: var(--accent-2);
+  border-color: rgba(245, 158, 11, 0.3);
+  transform: translateY(-1px);
+}
+
+.nav-actions .link:active { 
+  transform: translateY(0); 
+}
+
+.nav-actions .link.active {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--accent-2);
+}

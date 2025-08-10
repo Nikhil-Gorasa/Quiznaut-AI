@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Start - Quiznaut AI</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .quiz-start-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            min-height: 80vh;
+        }
+
+        .start-panel {
+            background: var(--panel);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .quiz-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--panel-2);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .meta-icon {
+            font-size: 1.1rem;
+        }
+
+        .name-form {
+            margin: 2rem 0;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--panel-2);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border: none;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .start-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .start-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .leaderboard-panel {
+            background: var(--panel);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .leaderboard-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 1.5rem 0;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--panel-2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .rank {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent);
+            min-width: 2rem;
+        }
+
+        .rank.gold { color: #ffd700; }
+        .rank.silver { color: #c0c0c0; }
+        .rank.bronze { color: #cd7f32; }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .player-score {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .score-badge {
+            padding: 0.25rem 0.75rem;
+            background: linear-gradient(135deg, #2ecc71, #34d199);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .empty-leaderboard {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-start-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .leaderboard-panel {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="/" aria-label="Quiznaut AI Home">
+                  <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
+                  <span class="brand-name">Quiznaut AI</span>
+                </a>
+                <nav class="nav-actions" aria-label="Primary">
+                    <a class="link" href="/create.html">Create Quiz</a>
+                    <a class="link" href="/#quizzes">Available Quizzes</a>
+                    <a class="link" href="/#how">How it Works</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="quiz-start-container">
+                <div class="start-panel">
+                    <div class="quiz-info">
+                        <h1 class="quiz-title" id="quizTitle">Loading Quiz...</h1>
+                        <div class="quiz-meta">
+                            <div class="meta-item">
+                                <span class="meta-icon">📝</span>
+                                <span id="questionCount">0 Questions</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-icon">⏱️</span>
+                                <span id="timeLimit">No Time Limit</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-icon">🎯</span>
+                                <span id="difficulty">Medium</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="name-form" id="startForm">
+                        <label for="playerName" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text);">
+                            Enter Your Name *
+                        </label>
+                        <input 
+                            type="text" 
+                            id="playerName" 
+                            class="name-input" 
+                            placeholder="Your name here..."
+                            required
+                            maxlength="50"
+                        >
+                        <button type="submit" class="start-btn" id="startBtn" disabled>
+                            🚀 Start Quiz
+                        </button>
+                    </form>
+                </div>
+
+                <div class="leaderboard-panel">
+                    <h2 class="leaderboard-title">🏆 Leaderboard</h2>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <div class="empty-leaderboard">
+                            <div class="empty-icon">🏆</div>
+                            <p>No scores yet. Be the first!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase SDK must load before our modules that create/use the client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/env.js" type="module"></script>
+    <script type="module">
+        import { supabaseClient } from '/js/supabaseClient.js';
+
+        // Get quiz ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const quizId = urlParams.get('id');
+
+        if (!quizId) {
+            alert('No quiz ID provided!');
+            window.location.href = '/';
+        }
+
+        let quizData = null;
+        let leaderboardData = [];
+
+        // Load quiz data
+        async function loadQuiz() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('quizzes')
+                    .select('*')
+                    .eq('id', quizId)
+                    .single();
+
+                if (error) throw error;
+
+                quizData = data;
+                displayQuizInfo();
+                loadLeaderboard();
+            } catch (error) {
+                console.error('Error loading quiz:', error);
+                alert('Failed to load quiz. Please check the URL.');
+                window.location.href = '/';
+            }
+        }
+
+        function displayQuizInfo() {
+            document.getElementById('quizTitle').textContent = quizData.title;
+            document.getElementById('questionCount').textContent = `${quizData.questions.length} Questions`;
+            document.getElementById('difficulty').textContent = quizData.difficulty || 'Medium';
+            
+            // Calculate estimated time (30 seconds per question)
+            const estimatedTime = Math.ceil(quizData.questions.length * 0.5);
+            document.getElementById('timeLimit').textContent = `${estimatedTime} min`;
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('quiz_scores')
+                    .select('*')
+                    .eq('quiz_id', quizId)
+                    .order('score', { ascending: false })
+                    .limit(10);
+
+                if (error) throw error;
+
+                leaderboardData = data || [];
+                displayLeaderboard();
+            } catch (error) {
+                console.error('Error loading leaderboard:', error);
+            }
+        }
+
+        function displayLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            
+            if (leaderboardData.length === 0) {
+                leaderboardList.innerHTML = `
+                    <div class="empty-leaderboard">
+                        <div class="empty-icon">🏆</div>
+                        <p>No scores yet. Be the first!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            leaderboardList.innerHTML = leaderboardData.map((score, index) => {
+                const rankClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : '';
+                const rankIcon = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '#' + (index + 1);
+                
+                return `
+                    <div class="leaderboard-item">
+                        <div class="rank ${rankClass}">${rankIcon}</div>
+                        <div class="player-info">
+                            <div class="player-name">${score.player_name}</div>
+                            <div class="player-score">${score.correct_answers}/${score.total_questions} correct</div>
+                        </div>
+                        <div class="score-badge">${score.score}%</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Handle form submission
+        document.getElementById('startForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const playerName = document.getElementById('playerName').value.trim();
+            if (!playerName) {
+                alert('Please enter your name!');
+                return;
+            }
+
+            // Store player name in session storage
+            sessionStorage.setItem('playerName', playerName);
+            
+            // Redirect to quiz page
+            window.location.href = `quiz.html?id=${quizId}`;
+        });
+
+        // Enable start button when name is entered
+        document.getElementById('playerName').addEventListener('input', function() {
+            const startBtn = document.getElementById('startBtn');
+            startBtn.disabled = !this.value.trim();
+        });
+
+        // Load quiz on page load
+        loadQuiz();
+    </script>
+</body>
+</html>
