@@ -24,6 +24,19 @@
 - **Modern UI/UX**: Clean, intuitive interface that rivals any framework-based application
 - **Smooth Animations**: CSS transitions and transforms that create a premium feel
 
+### **Environment Setup**
+
+Before running the project with AI and database features, create a file named `env.js` in the project root:
+
+```javascript
+// Client-side environment variables for static hosting
+// Replace the empty strings with your actual keys/URLs before deploying
+
+window.GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";  // e.g., from Google AI Studio
+window.SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";  
+window.SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+```
+
 ## 🌟 Key Features That Showcase the Power of Vanilla Web
 
 ### 📚 **Quiz Management**
