@@ -9,6 +9,7 @@
       content="Create and take AI-powered quizzes with ease. Built with vanilla JS, CSS, HTML, and Supabase."
     />
     <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/header.css" />
   </head>
   <body>
     <header class="site-header">
@@ -17,6 +18,14 @@
           <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
           <span class="brand-name">Quiznaut AI</span>
         </a>
+        
+        <!-- Mobile hamburger button -->
+        <button class="hamburger-menu" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
         <nav class="nav-actions" aria-label="Primary">
           <a class="link" href="/create.html">Create Quiz</a>
           <a class="link" href="#quizzes">Available Quizzes</a>
@@ -101,8 +110,8 @@
                   <div class="skeleton pill"></div>
                 </div>
                 <div class="preview-actions">
-                  <div class="action-btn">Start</div>
-                  <div class="action-btn secondary">Settings</div>
+                  <button class="action-btn" onclick="startDemoQuiz()">Start</button>
+                  <button class="action-btn secondary" onclick="showDemoSettings()">Settings</button>
                 </div>
               </div>
               <div class="floating-elements">
@@ -228,11 +237,17 @@
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <div class="footer-brand">
-          <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
-          <span class="brand-name">Quiznaut AI</span>
-          <span class="dot" aria-hidden="true">•</span>
-          <span class="credit">Powered by Gemini API, Cursor AI, and Supabase.</span>
+        <div class="footer-content">
+          <div class="footer-brand">
+            <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="Quiznaut AI Logo" decoding="async"/>
+            <div class="brand-info">
+              <span class="brand-name">Quiznaut AI</span>
+              <span class="brand-tagline">Create & Share Quizzes Instantly</span>
+            </div>
+          </div>
+          <div class="footer-credit">
+            <span class="credit-text">Made with ❤️ by <a href="https://github.com/nikhil-gorasa" target="_blank" rel="noopener">Nikhil Gorasa</a></span>
+          </div>
         </div>
       </div>
     </footer>
@@ -243,6 +258,20 @@
     <script src="/env.js" type="module"></script>
     <script src="/js/hero-effects.js"></script>
     <script src="/js/home-quizzes.js" type="module"></script>
+    <script src="/js/hamburger-menu.js"></script>
+    
+    <script>
+      // Preview container interaction functions
+      function startDemoQuiz() {
+        // Redirect to create page to start making a quiz
+        window.location.href = '/create.html';
+      }
+      
+      function showDemoSettings() {
+        // Show a demo settings modal or redirect to create page
+        window.location.href = '/create.html';
+      }
+    </script>
   </body>
   </html>
 

@@ -303,7 +303,7 @@ async function handleGenerate() {
     updateSaveButton();
   } catch (err) {
     console.error(err);
-    status.textContent = 'AI generation failed. Try again or add questions manually.';
+    status.textContent = 'Please enter a topic for AI generation or add questions manually.';
     status.className = 'status error';
   } finally {
     generateBtn.disabled = false;

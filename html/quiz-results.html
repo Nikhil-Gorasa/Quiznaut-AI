@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Results - Quiznaut AI</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         .results-container {
             max-width: 1200px;
@@ -326,10 +327,29 @@
         @media (max-width: 768px) {
             .results-container {
                 padding: 1rem;
+                gap: 1.5rem;
+                min-height: auto;
+            }
+
+            .results-main {
+                padding: 2rem;
+            }
+
+            .results-header {
+                margin-bottom: 2rem;
             }
 
             .results-title {
                 font-size: 2rem;
+            }
+
+            .results-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .score-display {
+                padding: 1.5rem;
+                margin: 1.5rem 0;
             }
 
             .score-circle {
@@ -343,13 +363,142 @@
                 height: 90px;
             }
 
+            .score-details {
+                gap: 1.5rem;
+                margin-top: 0.75rem;
+            }
+
+            .score-number {
+                font-size: 1.25rem;
+            }
+
+            .score-label {
+                font-size: 0.8rem;
+            }
+
             .action-buttons {
                 flex-direction: column;
+                gap: 0.75rem;
             }
 
             .action-btn {
                 width: 100%;
                 justify-content: center;
+                min-height: 44px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .results-container {
+                padding: 0.75rem;
+                gap: 1rem;
+            }
+
+            .results-main {
+                padding: 1.5rem;
+            }
+
+            .results-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .results-title {
+                font-size: 1.75rem;
+            }
+
+            .results-subtitle {
+                font-size: 1rem;
+            }
+
+            .score-display {
+                padding: 1.25rem;
+                margin: 1.25rem 0;
+            }
+
+            .score-circle {
+                width: 100px;
+                height: 100px;
+                font-size: 1.75rem;
+            }
+
+            .score-circle::before {
+                width: 75px;
+                height: 75px;
+            }
+
+            .score-details {
+                gap: 1rem;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .score-number {
+                font-size: 1.1rem;
+            }
+
+            .score-label {
+                font-size: 0.75rem;
+            }
+
+            .action-btn {
+                min-height: 40px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .results-container {
+                padding: 0.5rem;
+                gap: 0.75rem;
+            }
+
+            .results-main {
+                padding: 1.25rem;
+            }
+
+            .results-header {
+                margin-bottom: 1.25rem;
+            }
+
+            .results-title {
+                font-size: 1.5rem;
+            }
+
+            .results-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .score-display {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+
+            .score-circle {
+                width: 80px;
+                height: 80px;
+                font-size: 1.5rem;
+            }
+
+            .score-circle::before {
+                width: 60px;
+                height: 60px;
+            }
+
+            .score-details {
+                gap: 0.75rem;
+            }
+
+            .score-number {
+                font-size: 1rem;
+            }
+
+            .score-label {
+                font-size: 0.7rem;
+            }
+
+            .action-btn {
+                min-height: 36px;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -362,7 +511,15 @@
                   <img class="brand-logo" src="/QUIZNAUT%20AI%20Logo.png" alt="" decoding="async"/>
                   <span class="brand-name">Quiznaut AI</span>
                 </a>
-                                  <nav class="nav-actions" aria-label="Primary">
+                
+                <!-- Mobile hamburger button -->
+                <button class="hamburger-menu" aria-label="Toggle navigation menu" aria-expanded="false">
+                  <span class="hamburger-line"></span>
+                  <span class="hamburger-line"></span>
+                  <span class="hamburger-line"></span>
+                </button>
+                
+                <nav class="nav-actions" aria-label="Primary">
                       <a class="link" href="/create.html">Create Quiz</a>
                       <a class="link" href="/#quizzes">Available Quizzes</a>
                       <a class="link" href="/#how">How it Works</a>
@@ -452,6 +609,7 @@
     <!-- Supabase SDK must load before our modules that create/use the client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/env.js" type="module"></script>
+    <script src="/js/hamburger-menu.js"></script>
     <script type="module">
         import { supabaseClient } from '/js/supabaseClient.js';
 
